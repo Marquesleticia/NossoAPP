@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 30),
               TextField(controller: _loginCtrl, decoration: InputDecoration(labelText: 'Usuário')),
               SizedBox(height: 15),
-              TextField(controller: _senhaCtrl, decoration: InputDecoration(labelText: 'Senha'), obscureText: true),
+              TextField(decoration: InputDecoration(labelText: 'Senha'), obscureText: true),
               SizedBox(height: 25),
               ElevatedButton(onPressed: _login, child: Text('Entrar')),
               SizedBox(height: 10),
@@ -136,9 +136,9 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Icon(Icons.person_add_alt, size: 80, color: theme.colorScheme.primary),
               SizedBox(height: 30),
-              TextField(controller: _loginCtrl, decoration: InputDecoration(labelText: 'Login')),
+              TextField(decoration: InputDecoration(labelText: 'Login')),
               SizedBox(height: 15),
-              TextField(controller: _emailCtrl, decoration: InputDecoration(labelText: 'Email')),
+              TextField(decoration: InputDecoration(labelText: 'Email')),
               SizedBox(height: 15),
               TextField(decoration: InputDecoration(labelText: 'Senha'), obscureText: true),
               SizedBox(height: 25),
@@ -209,20 +209,78 @@ class _LoginScreenState extends State<LoginScreen> {
               TextField(controller: cpfCtrl, decoration: InputDecoration(labelText: 'CPF')),
               SizedBox(height: 15),
               TextField(controller: telCtrl, decoration: InputDecoration(labelText: 'Telefone')),
-              SizedBox(height: 25),
-              ElevatedButton(
-                onPressed: () => _savePerson(nomeCtrl.text, cpfCtrl.text, telCtrl.text),
-                child: Text('Salvar'),
-              ),
-              if (_editingPerson != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
+              SizedBox(height: 30),
+                       // 🔹 Botões variam conforme a ação
+          if (_editingPerson == null)
+            // Modo NOVA pessoa → Salvar + Cancelar
+            Row(
+              children: [
+                Expanded(
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+                    onPressed: () => _savePerson(nomeCtrl.text, cpfCtrl.text, telCtrl.text),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      foregroundColor: Colors.white,
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text('Salvar'),
+                  ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => setState(() => _screen = 'people'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      foregroundColor: Colors.white,
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text('Cancelar'),
+                  ),
+                ),
+              ],
+            )
+          else
+            // Modo EDITAR pessoa → Salvar + Excluir
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => _savePerson(nomeCtrl.text, cpfCtrl.text, telCtrl.text),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      foregroundColor: Colors.white,
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text('Salvar'),
+                  ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
                     onPressed: _deletePerson,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      foregroundColor: Colors.white,
+                      minimumSize: Size(double.infinity, 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
                     child: Text('Excluir'),
                   ),
                 ),
+              ],
+            ),
             ],
           ),
         ),
