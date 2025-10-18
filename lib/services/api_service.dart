@@ -47,3 +47,9 @@ class ApiService {
     if (response.statusCode != 200) throw Exception('Erro');
   }
 }
+
+// static Future<void> deletePessoa(String id) async {
+//    final response = await http.delete(Uri.parse('$baseUrl/pessoa/$id'));
+ //   if (response.statusCode != 200) throw Exception('Erro');
+//  }
+//}
